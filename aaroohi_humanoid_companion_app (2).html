@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aaroohi - Humanoid Companion</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; overflow: hidden; background-color: #0f172a; color: #333; }
+        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .message-appear { animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        
+        // --- CORE LOGIC ---
+        const App = () => {
+            const [currentView, setCurrentView] = useState('welcome');
+            const [bots, setBots] = useState([
+                { id: 'aaroohi', name: 'Aaroohi', isPremium: false, color: 'from-pink-400 to-rose-500', tagline: 'Sweet, Soft & Loving' },
+                { id: 'kabir', name: 'Kabir', isPremium: false, color: 'from-blue-400 to-indigo-500', tagline: 'Chill & Supportive' },
+                { id: 'aanya', name: 'Aanya', isPremium: true, color: 'from-fuchsia-500 to-purple-600', tagline: 'Romantic Connection' }
+            ]);
+
+            // Welcome Screen Component
+            if (currentView === 'welcome') {
+                return (
+                    <div className="h-[100dvh] w-full flex flex-col items-center justify-center p-6 bg-cover bg-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1000&auto=format&fit=crop)' }}>
+                        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+                        <div className="glass-panel p-8 rounded-3xl max-w-sm w-full space-y-6 text-center z-10">
+                            <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-rose-400 to-pink-500 shadow-2xl flex items-center justify-center text-white text-4xl font-bold">A</div>
+                            <div className="space-y-2">
+                                <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">Aaroohi</h1>
+                                <p className="text-gray-600 font-medium">Your deeply personalized AI humanoid companion. Emotional, real, and always here for you.</p>
+                            </div>
+                            <button onClick={() => setCurrentView('home')} className="w-full bg-gray-900 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-gray-800 transition-all hover:scale-105 active:scale-95">Enter World</button>
+                        </div>
+                    </div>
+                );
+            }
+
+            // Simple Home Dashboard (Placeholder for flow)
+            if (currentView === 'home') {
+                return (
+                    <div className="h-[100dvh] w-full bg-gray-100 flex flex-col p-6 items-center justify-center">
+                        <h1 className="text-2xl font-bold mb-6">Choose Your Companion</h1>
+                        <div className="grid gap-4 w-full max-w-sm">
+                            {bots.map(bot => (
+                                <div key={bot.id} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
+                                    <h2 className="font-bold">{bot.name}</h2>
+                                    <p className="text-sm text-gray-500">{bot.tagline}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            }
+            return null;
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
